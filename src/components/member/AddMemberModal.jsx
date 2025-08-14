@@ -52,8 +52,8 @@ const AddMemberModal = ({ open, onClose }) => {
                         name: '',
                         email: '',
                         password: '',
-                        unitNumber: '',
-                        building: ''
+                        // unitNumber: '',
+                        // building: ''
                     }}
                     validationSchema={Yup.object().shape({
                         name: Yup.string().required('Name is required'),
@@ -62,8 +62,8 @@ const AddMemberModal = ({ open, onClose }) => {
                             .required('Password is required')
                             .min(6, 'Password must be at least 6 characters')
                             .max(20, 'Password must be less than 20 characters'),
-                        unitNumber: Yup.string().required('Unit Number is required'),
-                        building: Yup.string().required('Building is required')
+                        // unitNumber: Yup.string().required('Unit Number is required'),
+                        // building: Yup.string().required('Building is required')
                     })}
                     onSubmit={async (values, { setSubmitting, resetForm }) => {
                         try {
@@ -154,7 +154,7 @@ const AddMemberModal = ({ open, onClose }) => {
                                         )}
                                     </Stack>
                                 </Grid>
-
+{/* 
                                 <Grid item xs={12}>
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="unitNumber">Unit Number</InputLabel>
@@ -197,7 +197,7 @@ const AddMemberModal = ({ open, onClose }) => {
                                             ))}
                                         </TextField>
                                     </Stack>
-                                </Grid>
+                                </Grid> */}
 
 
                                 <Grid item xs={12}>

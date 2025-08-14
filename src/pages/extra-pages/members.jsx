@@ -24,9 +24,9 @@ import EditMemberModal from '../../components/member/EditMemberModal';
 const headCells = [
     { id: 'name', align: 'left', disablePadding: false, label: 'Name' },
     { id: 'email', align: 'left', disablePadding: false, label: 'Email' },
-    { id: 'unitNumber', align: 'left', disablePadding: false, label: 'Unit Number' },
-    { id: 'building', align: 'left', disablePadding: false, label: 'Building' },
-    { id: 'role', align: 'right', disablePadding: false, label: 'Role' }
+    // { id: 'unitNumber', align: 'left', disablePadding: false, label: 'Unit Number' },
+    // { id: 'building', align: 'left', disablePadding: false, label: 'Building' },
+    { id: 'role', align: 'left', disablePadding: false, label: 'Role' }
 ];
 
 export default function MembersPage() {
@@ -162,9 +162,9 @@ export default function MembersPage() {
                                         <Link color="secondary">{row.name}</Link>
                                     </TableCell>
                                     <TableCell>{row.email}</TableCell>
-                                    <TableCell >{row.unitNumber}</TableCell>
-                                    <TableCell>{row.building?.name}</TableCell>
-                                    <TableCell align="right">
+                                    {/* <TableCell >{row.unitNumber}</TableCell>
+                                    <TableCell>{row.building?.name}</TableCell> */}
+                                    <TableCell >
                                         {row.role}
                                     </TableCell>
                                     <TableCell>

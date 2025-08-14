@@ -43,14 +43,14 @@ const EditMemberModal = ({ openEdit, onEditClose, data }) => {
                         name: data.name,
                         email: data.email,
                         password: data.password,
-                        unitNumber: data.unitNumber,
-                        building: data.building._id
+                        // unitNumber: data.unitNumber,
+                        // building: data.building._id
                     }}
                     validationSchema={Yup.object().shape({
                         name: Yup.string().required('Name is required'),
                         email: Yup.string().email('Invalid email').required('Email is required'),
-                        unitNumber: Yup.string().required('Unit Number is required'),
-                        building: Yup.string().required('Building is required')
+                        // unitNumber: Yup.string().required('Unit Number is required'),
+                        // building: Yup.string().required('Building is required')
                     })}
                     onSubmit={async (values, { setSubmitting, resetForm }) => {
                         try {
@@ -110,7 +110,7 @@ const EditMemberModal = ({ openEdit, onEditClose, data }) => {
                                     </Stack>
                                 </Grid>
 
-                                <Grid item xs={12}>
+                                {/* <Grid item xs={12}>
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="unitNumber">Unit Number</InputLabel>
                                         <OutlinedInput
@@ -152,7 +152,7 @@ const EditMemberModal = ({ openEdit, onEditClose, data }) => {
                                             ))}
                                         </TextField>
                                     </Stack>
-                                </Grid>
+                                </Grid> */}
 
 
                                 <Grid item xs={12}>

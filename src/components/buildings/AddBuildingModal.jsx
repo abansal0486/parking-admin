@@ -28,11 +28,13 @@ const AddBuildingModal = ({ open, onClose }) => {
                     <Formik
                         initialValues={{
                             name: '',
-                            code: ''
+                            code: '',
+                            nights: 0
                         }}
                         validationSchema={Yup.object().shape({
                             name: Yup.string().required('Name is required'),
-                            code: Yup.string().required('Code is required')
+                            // code: Yup.string().required('Code is required')
+                            nights: Yup.number().required('Nights is required')
                         })}
                         onSubmit={async (values, { setSubmitting, resetForm }) => {
                             try {
@@ -74,7 +76,7 @@ const AddBuildingModal = ({ open, onClose }) => {
 
                                     <Grid item xs={12}>
                                         <Stack spacing={1}>
-                                            <InputLabel htmlFor="code">Code</InputLabel>
+                                            <InputLabel htmlFor="code">Code (Optional)</InputLabel>
                                             <OutlinedInput
                                                 id="code"
                                                 name="code"
@@ -88,6 +90,26 @@ const AddBuildingModal = ({ open, onClose }) => {
                                             />
                                             {touched.code && errors.code && (
                                                 <FormHelperText error>{errors.code}</FormHelperText>
+                                            )}
+                                        </Stack>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Stack spacing={1}>
+                                            <InputLabel htmlFor="nights">Nights</InputLabel>
+                                            <OutlinedInput
+                                                id="nights"
+                                                name="nights"
+                                                type="number"
+                                                value={values.nights}
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                placeholder="Enter nights"
+                                                fullWidth
+                                                error={Boolean(touched.nights && errors.nights)}
+                                                inputProps={{ min: 1 }}   // 👈 ensures minimum value is 1
+                                            />
+                                            {touched.nights && errors.nights && (
+                                                <FormHelperText error>{errors.nights}</FormHelperText>
                                             )}
                                         </Stack>
                                     </Grid>

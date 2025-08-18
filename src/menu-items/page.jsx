@@ -24,7 +24,7 @@ const pages = {
     },
      {
       id: 'tickets',
-      title: 'Tickets',
+      title: 'Registered Vehicles',
       type: 'item',
       url: '/tickets',
       icon: icons.FileDoneOutlined  

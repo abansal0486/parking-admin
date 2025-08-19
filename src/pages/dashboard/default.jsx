@@ -70,13 +70,13 @@ export default function DashboardDefault() {
         <Typography variant="h5">Dashboard</Typography>
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Tickets Booked Today" count={stats.todayCreated}  />
+        <AnalyticEcommerce title="Vehicles Registered Today" count={stats.todayCreated}  />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Tickets" count={stats.totalTickets} />
+        <AnalyticEcommerce title="Total Registered Vehicles" count={stats.totalTickets} />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Tickets Expiring Today" count={stats.expiringToday} />
+        <AnalyticEcommerce title="Vehicles Registration Expiring Today" count={stats.expiringToday} />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
         <AnalyticEcommerce title="Total Buildings" count={stats.totalBuildings} />

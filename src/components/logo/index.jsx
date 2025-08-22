@@ -11,9 +11,9 @@ import { APP_DEFAULT_PATH } from 'config';
 
 // ==============================|| MAIN LOGO ||============================== //
 
-export default function LogoSection({ reverse, isIcon, sx, to }) {
+export default function LogoSection({ reverse, isIcon, to }) {
   return (
-    <ButtonBase disableRipple component={Link} to={to || APP_DEFAULT_PATH} sx={sx}>
+    <ButtonBase disableRipple component={Link} to={to || APP_DEFAULT_PATH} >
       {isIcon ? <LogoIcon /> : <Logo reverse={reverse} />}
     </ButtonBase>
   );

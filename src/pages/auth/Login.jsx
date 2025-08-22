@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 // project imports
 import AuthWrapper from 'sections/auth/AuthWrapper';
 import AuthLogin from 'sections/auth/AuthLogin';
+import { ToastContainer } from 'react-toastify';
 
 // ================================|| JWT - LOGIN ||================================ //
 
@@ -27,6 +28,10 @@ export default function Login() {
           <AuthLogin />
         </Grid>
       </Grid>
+      <ToastContainer
+        closeButton={false}
+        autoClose={5000}
+        position='top-right' />
     </AuthWrapper>
   );
 }

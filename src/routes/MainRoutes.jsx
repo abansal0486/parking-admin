@@ -7,6 +7,7 @@ import { Navigate, useLocation } from 'react-router';
 import MembersPage from '../pages/extra-pages/members';
 import TicketsPage from '../pages/extra-pages/tickets';
 import BuildingsPage from '../pages/extra-pages/buildings';
+import ProfilePage from '../pages/extra-pages/profile-page';
 
 // 👇 Define RequireAuth inline
 const RequireAuth = ({ children }) => {
@@ -74,6 +75,10 @@ const MainRoutes = {
     {
       path: '/buildings',
       element: <BuildingsPage />
+    },
+    {
+      path: '/profile',
+      element: <ProfilePage />
     }
   ]
 };

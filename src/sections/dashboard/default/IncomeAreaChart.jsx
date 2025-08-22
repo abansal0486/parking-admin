@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 // material-ui
 import { alpha, useTheme } from '@mui/material/styles';
@@ -9,15 +9,9 @@ import Box from '@mui/material/Box';
 
 import { LineChart } from '@mui/x-charts/LineChart';
 
-// Sample data
+// Labels
 const monthlyLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const weeklyLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-const monthlyData1 = [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35];
-const weeklyData1 = [31, 40, 28, 51, 42, 109, 100];
-
-const monthlyData2 = [110, 60, 150, 35, 60, 36, 26, 45, 65, 52, 53, 41];
-const weeklyData2 = [11, 32, 45, 32, 34, 52, 41];
 
 function Legend({ items, onToggle }) {
   return (
@@ -41,17 +35,29 @@ function Legend({ items, onToggle }) {
 
 // ==============================|| INCOME AREA CHART ||============================== //
 
-export default function IncomeAreaChart({ view }) {
+export default function IncomeAreaChart({ view, monthlyStats }) {
   const theme = useTheme();
 
   const [visibility, setVisibility] = useState({
-    'Page views': true,
-    Sessions: true
+    Total: true
   });
 
+  // map monthlyStats -> chart data
+  const monthlyData = useMemo(() => {
+    if (!monthlyStats) return { total: [] };
+
+    const total = Array(12).fill(0);
+
+    monthlyStats.forEach((item) => {
+      const monthIndex = item.month - 1; // 0-based index
+      total[monthIndex] = item.total || 0;
+    });
+
+    return { total };
+  }, [monthlyStats]);
+
   const labels = view === 'monthly' ? monthlyLabels : weeklyLabels;
-  const data1 = view === 'monthly' ? monthlyData1 : weeklyData1;
-  const data2 = view === 'monthly' ? monthlyData2 : weeklyData2;
+  const data1 = view === 'monthly' ? monthlyData.total : []; // weekly not implemented
 
   const line = theme.palette.divider;
 
@@ -62,21 +68,12 @@ export default function IncomeAreaChart({ view }) {
   const visibleSeries = [
     {
       data: data1,
-      label: 'Page views',
+      label: 'Total Registrations',
       showMark: false,
       area: true,
-      id: 'Germany',
+      id: 'TotalSeries',
       color: theme.palette.primary.main || '',
-      visible: visibility['Page views']
-    },
-    {
-      data: data2,
-      label: 'Sessions',
-      showMark: false,
-      area: true,
-      id: 'UK',
-      color: theme.palette.primary[700] || '',
-      visible: visibility['Sessions']
+      visible: visibility['Total']
     }
   ];
 
@@ -105,18 +102,13 @@ export default function IncomeAreaChart({ view }) {
             strokeWidth: 2
           }))}
         sx={{
-          '& .MuiAreaElement-series-Germany': { fill: "url('#myGradient1')", strokeWidth: 2, opacity: 0.8 },
-          '& .MuiAreaElement-series-UK': { fill: "url('#myGradient2')", strokeWidth: 2, opacity: 0.8 },
+          '& .MuiAreaElement-series-TotalSeries': { fill: "url('#myGradient1')", strokeWidth: 2, opacity: 0.8 },
           '& .MuiChartsAxis-directionX .MuiChartsAxis-tick': { stroke: line }
         }}
       >
         <defs>
           <linearGradient id="myGradient1" gradientTransform="rotate(90)">
             <stop offset="10%" stopColor={alpha(theme.palette.primary.main, 0.4)} />
-            <stop offset="90%" stopColor={alpha(theme.palette.background.default, 0.4)} />
-          </linearGradient>
-          <linearGradient id="myGradient2" gradientTransform="rotate(90)">
-            <stop offset="10%" stopColor={alpha(theme.palette.primary[700], 0.4)} />
             <stop offset="90%" stopColor={alpha(theme.palette.background.default, 0.4)} />
           </linearGradient>
         </defs>
@@ -128,4 +120,7 @@ export default function IncomeAreaChart({ view }) {
 
 Legend.propTypes = { items: PropTypes.array, onToggle: PropTypes.func };
 
-IncomeAreaChart.propTypes = { view: PropTypes.oneOf(['monthly', 'weekly']) };
+IncomeAreaChart.propTypes = { 
+  view: PropTypes.oneOf(['monthly', 'weekly']),
+  monthlyStats: PropTypes.array // [{month, year, total}]
+};

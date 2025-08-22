@@ -140,7 +140,7 @@ export default function AuthLogin() {
                   </FormHelperText>
                 )}
               </Grid>
-              <Grid sx={{ mt: -1 }} size={12}>
+              {/* <Grid sx={{ mt: -1 }} size={12}>
                 <Stack direction="row" sx={{ gap: 2, alignItems: 'baseline', justifyContent: 'space-between' }}>
                   <FormControlLabel
                     control={
@@ -158,7 +158,7 @@ export default function AuthLogin() {
                     Forgot Password?
                   </Link>
                 </Stack>
-              </Grid>
+              </Grid> */}
               {errorMessage && (
                 <Grid size={12}>
                   <FormHelperText error>{errorMessage}</FormHelperText>

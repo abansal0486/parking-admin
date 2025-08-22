@@ -1,7 +1,7 @@
 import api from '../api/axios';
 
 export const login = async (data) => {
-    const response = await api.post('/auth/login', data);
+    const response = await api.post('/auth/admin/login', data);
     return response.data;
 };
 
@@ -72,6 +72,16 @@ export const addBuilding = async (data) => {
 
 export const updateBuilding = async (id, data) => {
     const response = await api.put(`/buildings/${id}`, data);
+    return response.data;
+};
+
+export const getUserDetails = async () => {
+    const response = await api.get('/auth/me');
+    return response.data;
+};
+
+export const updatePassword = async (data) => {
+    const response = await api.post('/auth/update-password', data);
     return response.data;
 };
 

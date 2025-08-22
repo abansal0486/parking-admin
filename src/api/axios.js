@@ -24,8 +24,8 @@ api.interceptors.response.use(
         const status = error.response?.status;
         if (status === 401) {
             localStorage.removeItem('token');
-            window.location.href = '/login';
-            toast.error('Session expired. Please log in again.');
+            toast.error('Unauthorized!');
+            setTimeout(() => window.location.href = '/admin/login', 1000);
         } else if (status >= 400) {
             toast.error(error.response?.data?.message || 'An error occurred.');
         }

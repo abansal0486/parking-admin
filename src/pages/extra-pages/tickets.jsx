@@ -159,9 +159,9 @@ export default function TicketsPage() {
                                         <Link color="secondary">{row.unitNumber}</Link>
                                     </TableCell>
                                     <TableCell>{row.building?.name}</TableCell>
-                                    <TableCell >{moment(row.startTime).format('DD/MM/YY HH:mm')}</TableCell>
+                                    <TableCell >{moment.parseZone(row.startTime).local().format('DD/MM/YY HH:mm')}</TableCell>
                                     <TableCell align="right">
-                                        {moment(row.endTime).format('DD/MM/YY HH:mm')}
+                                       {moment.parseZone(row.endTime).local().format("DD/MM/YY HH:mm")}
                                     </TableCell>
                                     <TableCell>
                                         <IconButton size="medium" onClick={() => handleEdit(row)}>

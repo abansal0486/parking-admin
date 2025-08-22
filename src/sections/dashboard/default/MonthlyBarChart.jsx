@@ -1,14 +1,28 @@
 // material-ui
 import { useTheme } from '@mui/material/styles';
-
 import { BarChart } from '@mui/x-charts/BarChart';
 
-const data = [80, 95, 70, 42, 65, 55, 78];
-const xLabels = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+const rawData = [
+  { _id: { date: "2025-08-14", day: 5 }, count: 3 },
+  { _id: { date: "2025-08-18", day: 2 }, count: 3 },
+  { _id: { date: "2025-08-20", day: 4 }, count: 1 }
+];
 
-// ==============================|| MONTHLY BAR CHART ||============================== //
+// Day mapping (1 = Su, 7 = Sa)
+const xLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
-export default function MonthlyBarChart() {
+// Fill counts with 0 by default
+const data = Array(7).fill(0);
+
+// Put values from rawData in correct day slot
+rawData.forEach(item => {
+  const dayIndex = item._id.day - 1; // shift to 0-based
+  data[dayIndex] = item.count;
+});
+
+// ==============================|| WEEKLY BAR CHART ||============================== //
+
+export default function WeeklyBarChart() {
   const theme = useTheme();
   const axisFonstyle = { fontSize: 10, fill: theme.palette.text.secondary };
 
@@ -16,7 +30,7 @@ export default function MonthlyBarChart() {
     <BarChart
       hideLegend
       height={380}
-      series={[{ data, label: 'Series-1' }]}
+      series={[{ data, label: 'Total Registrations' }]}
       xAxis={[{ data: xLabels, scaleType: 'band', disableLine: true, disableTicks: true, tickLabelStyle: axisFonstyle }]}
       yAxis={[{ position: 'none' }]}
       slotProps={{ bar: { rx: 5, ry: 5 } }}

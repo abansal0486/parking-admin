@@ -165,7 +165,7 @@ export default function MembersPage() {
                                     {/* <TableCell >{row.unitNumber}</TableCell>
                                     <TableCell>{row.building?.name}</TableCell> */}
                                     <TableCell >
-                                        {row.role}
+                                        {row.role=='member' ? 'Member' : 'Admin'}
                                     </TableCell>
                                     <TableCell>
                                         <IconButton size="medium" onClick={() => handleEdit(row)}>

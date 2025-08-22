@@ -23,7 +23,7 @@ import EditBuildingModal from '../../components/buildings/EditBuildingModal';
 
 const headCells = [
     { id: 'name', align: 'left', disablePadding: false, label: 'Name' },
-    { id: 'code', align: 'left', disablePadding: false, label: 'Code' },
+    { id: 'code', align: 'left', disablePadding: false, label: 'Maximum Nights' },
     { id: 'status', align: 'left', disablePadding: false, label: 'Status' }
 ];
 
@@ -160,7 +160,7 @@ export default function BuildingsPage() {
                                     <TableCell component="th" id={labelId} scope="row">
                                         <Link color="secondary">{row.name}</Link>
                                     </TableCell>
-                                    <TableCell>{row.code}</TableCell>
+                                    <TableCell>{row.nights}</TableCell>
                                     <TableCell >{row.status}</TableCell>
                                     <TableCell>
                                         <IconButton size="medium" onClick={() => handleEdit(row)}>

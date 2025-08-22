@@ -15,9 +15,9 @@ export default function AuthFooter() {
       >
         <Typography variant="subtitle2" color="secondary">
           © Made with love by Team{' '}
-          <Link href="https://codedthemes.com/" target="_blank" underline="hover">
+          {/* <Link href="#" target="_blank" underline="hover">
             CodedThemes
-          </Link>
+          </Link> */}
         </Typography>
 
         <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: { xs: 1, sm: 3 }, textAlign: { xs: 'center', sm: 'inherit' } }}>
@@ -25,8 +25,8 @@ export default function AuthFooter() {
             variant="subtitle2"
             color="secondary"
             component={Link}
-            href="https://mui.com/store/terms/"
-            target="_blank"
+            href="#"
+            // target="_blank"
             underline="hover"
           >
             Terms and Conditions
@@ -35,8 +35,8 @@ export default function AuthFooter() {
             variant="subtitle2"
             color="secondary"
             component={Link}
-            href="https://mui.com/legal/privacy/"
-            target="_blank"
+            href="#"
+            // target="_blank"
             underline="hover"
           >
             Privacy Policy

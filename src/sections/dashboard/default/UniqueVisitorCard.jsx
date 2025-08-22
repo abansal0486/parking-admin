@@ -13,7 +13,7 @@ import IncomeAreaChart from './IncomeAreaChart';
 
 // ==============================|| DEFAULT - UNIQUE VISITOR ||============================== //
 
-export default function UniqueVisitorCard() {
+export default function UniqueVisitorCard({monthlyStats}) {
   const [view, setView] = useState('monthly'); // 'monthly' or 'weekly'
 
   return (
@@ -32,20 +32,20 @@ export default function UniqueVisitorCard() {
             >
               Month
             </Button>
-            <Button
+            {/* <Button
               size="small"
               onClick={() => setView('weekly')}
               color={view === 'weekly' ? 'primary' : 'secondary'}
               variant={view === 'weekly' ? 'outlined' : 'text'}
             >
               Week
-            </Button>
+            </Button> */}
           </Stack>
         </Grid>
       </Grid>
       <MainCard content={false} sx={{ mt: 1.5 }}>
         <Box sx={{ pt: 1, pr: 2 }}>
-          <IncomeAreaChart view={view} />
+          <IncomeAreaChart view={view} monthlyStats={monthlyStats} />
         </Box>
       </MainCard>
     </>

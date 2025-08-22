@@ -34,7 +34,7 @@ const AddBuildingModal = ({ open, onClose }) => {
                         validationSchema={Yup.object().shape({
                             name: Yup.string().required('Name is required'),
                             // code: Yup.string().required('Code is required')
-                            nights: Yup.number().required('Nights is required')
+                            nights: Yup.number().required('Maximum Nights count is required')
                         })}
                         onSubmit={async (values, { setSubmitting, resetForm }) => {
                             try {
@@ -95,7 +95,7 @@ const AddBuildingModal = ({ open, onClose }) => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Stack spacing={1}>
-                                            <InputLabel htmlFor="nights">Nights</InputLabel>
+                                            <InputLabel htmlFor="nights">Maximum Nights</InputLabel>
                                             <OutlinedInput
                                                 id="nights"
                                                 name="nights"

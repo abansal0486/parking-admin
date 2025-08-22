@@ -2,7 +2,7 @@ import useSWR, { mutate } from 'swr';
 import { useMemo } from 'react';
 
 const initialState = {
-  isDashboardDrawerOpened: false
+  isDashboardDrawerOpened: true
 };
 
 const endpoints = {

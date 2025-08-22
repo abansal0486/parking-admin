@@ -30,16 +30,17 @@ const AddMemberModal = ({ open, onClose }) => {
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => event.preventDefault();
 
-    const [buildingOptions, setBuildingOptions] = useState([]);
+    // const [buildingOptions, setBuildingOptions] = useState([]);
+    const roleOptions = [{ value: 'superadmin', label: 'Admin' }, { value: 'member', label: 'Member' }];
 
-    useEffect(() => {
-        // Fetch building options from your API
-        const fetchBhildings = async () => {
-            const res = await getBuildings();
-            setBuildingOptions(res);
-        };
-        fetchBhildings();
-    }, []);
+    // useEffect(() => {
+    //     // Fetch building options from your API
+    //     const fetchBhildings = async () => {
+    //         const res = await getBuildings();
+    //         setBuildingOptions(res);
+    //     };
+    //     fetchBhildings();
+    // }, []);
 
 
     return (
@@ -52,6 +53,7 @@ const AddMemberModal = ({ open, onClose }) => {
                         name: '',
                         email: '',
                         password: '',
+                        role: 'member',
                         // unitNumber: '',
                         // building: ''
                     }}
@@ -198,6 +200,30 @@ const AddMemberModal = ({ open, onClose }) => {
                                         </TextField>
                                     </Stack>
                                 </Grid> */}
+
+                                 <Grid item xs={12}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="role">Role</InputLabel>
+                                        <TextField
+                                            id="role"
+                                            name="role"
+                                            select
+                                            fullWidth
+                                            value={values.role}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            error={Boolean(touched.role && errors.role)}
+                                            helperText={touched.role && errors.role}
+                                            inputProps={{ 'aria-label': 'Select Role' }}
+                                        >
+                                            {roleOptions.map((b) => (
+                                                <MenuItem key={b.value} value={b.value}>
+                                                    {b.label}
+                                                </MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </Stack>
+                                </Grid> 
 
 
                                 <Grid item xs={12}>

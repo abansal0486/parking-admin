@@ -35,6 +35,13 @@ const pages = {
       type: 'item',
       url: '/buildings',
       icon: icons.ProjectOutlined 
+    },
+    {
+      id: 'profile',
+      title: 'Profile',
+      type: 'item',
+      url: '/profile',
+      icon: icons.TeamOutlined 
     }
   ]
 };

@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 // project imports
 import MainCard from 'components/MainCard';
 import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
-import MonthlyBarChart from 'sections/dashboard/default/MonthlyBarChart';
+import WeeklyBarChart from 'sections/dashboard/default/WeeklyBarChart';
 import UniqueVisitorCard from 'sections/dashboard/default/UniqueVisitorCard';
 
 // assets
@@ -85,7 +85,7 @@ export default function DashboardDefault() {
               {/* <Typography variant="h3">$7,650</Typography> */}
             </Stack>
           </Box>
-          <MonthlyBarChart weeklyStats={stats.last7days} />
+          <WeeklyBarChart weeklyStats={stats.last7days} />
         </MainCard>
       </Grid>
       <ToastContainer

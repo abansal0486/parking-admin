@@ -32,6 +32,11 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
         fetchBhildings();
     }, []);
 
+        const getMaxNights = (buildingId) => {
+        const building = buildingOptions.find((b) => b._id === buildingId);
+        return building ? building.nights : 0;
+    };
+
 
     return (
         <Box>
@@ -43,13 +48,15 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                         plateNumber: data.plateNumber,
                         email: data.email,
                         unitNumber: data.unitNumber,
-                        building: data.building._id
+                        building: data.building._id,
+                        nights: data.nights || 0
                     }}
                     validationSchema={Yup.object().shape({
                         plateNumber: Yup.string().required('Plate Number is required'),
-                        email: Yup.string().email('Invalid email').required('Email is required'),
+                        email: Yup.string().email('Invalid email'),
                         unitNumber: Yup.string().required('Unit Number is required'),
-                        building: Yup.string().required('Building is required')
+                        building: Yup.string().required('Building is required'),
+                        nights: Yup.number().required('Number of Maximum Nights is required')
                     })}
                     onSubmit={async (values, { setSubmitting, resetForm }) => {
                         try {
@@ -150,6 +157,27 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                                                 </MenuItem>
                                             ))}
                                         </TextField>
+                                    </Stack>
+                                </Grid>
+
+                                 <Grid item xs={12}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="nights">Nights</InputLabel>
+                                        <OutlinedInput
+                                            id="nights"
+                                            name="nights"
+                                            type="number"
+                                            value={values.nights}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder="Enter number of nights"
+                                            fullWidth
+                                            error={Boolean(touched.nights && errors.nights)}
+                                            inputProps={{ min: 1, max: getMaxNights(values.building) }}
+                                        />
+                                        {touched.nights && errors.nights && (
+                                            <FormHelperText error>{errors.nights}</FormHelperText>
+                                        )}
                                     </Stack>
                                 </Grid>
 

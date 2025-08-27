@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -18,8 +18,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import { addBuilding } from '../../api/api';
 
 const AddBuildingModal = ({ open, onClose }) => {
-
-
     return (
         <Box>
             <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -29,29 +27,42 @@ const AddBuildingModal = ({ open, onClose }) => {
                         initialValues={{
                             name: '',
                             code: '',
-                            nights: 0
+                            nights: 0,
+                            file: null   // 👈 file field
                         }}
                         validationSchema={Yup.object().shape({
                             name: Yup.string().required('Name is required'),
-                            // code: Yup.string().required('Code is required')
                             nights: Yup.number().required('Maximum Nights count is required')
                         })}
                         onSubmit={async (values, { setSubmitting, resetForm }) => {
                             try {
                                 setSubmitting(true);
-                                // Add building logic goes here
-                                const res = await addBuilding(values);
-                                toast.success(res.message);
+
+                                // use FormData to include file
+                                const formData = new FormData();
+                                formData.append('name', values.name);
+                                formData.append('code', values.code);
+                                formData.append('nights', values.nights);
+                                if (values.file) {
+                                    formData.append('file', values.file);
+                                }
+
+                                const res = await addBuilding(formData, {
+                                    headers: { 'Content-Type': 'multipart/form-data' }
+                                });
+
+                                toast.success(res.message || 'Building added successfully');
                                 resetForm();
                                 onClose();
                             } catch (error) {
                                 console.error('Error adding building:', error);
+                                toast.error('Failed to add building');
                             } finally {
                                 setSubmitting(false);
                             }
                         }}
                     >
-                        {({ handleSubmit, handleBlur, handleChange, touched, values, errors }) => (
+                        {({ handleSubmit, handleBlur, handleChange, setFieldValue, touched, values, errors }) => (
                             <form noValidate onSubmit={handleSubmit}>
                                 <Grid container spacing={2} sx={{ mt: 1, flexDirection: 'column' }}>
                                     <Grid item xs={12}>
@@ -93,6 +104,7 @@ const AddBuildingModal = ({ open, onClose }) => {
                                             )}
                                         </Stack>
                                     </Grid>
+
                                     <Grid item xs={12}>
                                         <Stack spacing={1}>
                                             <InputLabel htmlFor="nights">Maximum Nights</InputLabel>
@@ -106,13 +118,29 @@ const AddBuildingModal = ({ open, onClose }) => {
                                                 placeholder="Enter nights"
                                                 fullWidth
                                                 error={Boolean(touched.nights && errors.nights)}
-                                                inputProps={{ min: 1 }}   // 👈 ensures minimum value is 1
+                                                inputProps={{ min: 1 }}
                                             />
                                             {touched.nights && errors.nights && (
                                                 <FormHelperText error>{errors.nights}</FormHelperText>
                                             )}
                                         </Stack>
                                     </Grid>
+
+                                    {/* 👇 New CSV Upload field */}
+                                    <Grid item xs={12}>
+                                        <Stack spacing={1}>
+                                            <InputLabel htmlFor="file">Banned Plates CSV (Optional)</InputLabel>
+                                            <OutlinedInput
+                                                id="file"
+                                                name="file"
+                                                type="file"
+                                                inputProps={{ accept: '.csv' }}
+                                                onChange={(e) => setFieldValue("file", e.currentTarget.files[0])}
+                                                fullWidth
+                                            />
+                                        </Stack>
+                                    </Grid>
+
                                     <Grid item xs={12}>
                                         <DialogActions>
                                             <Button onClick={onClose}>Cancel</Button>

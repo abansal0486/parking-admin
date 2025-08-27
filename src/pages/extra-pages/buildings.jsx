@@ -10,9 +10,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Box from '@mui/material/Box';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography } from '@mui/material';
 
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
 
 // project imports
 import { deleteBuilding, getPaginatedBuildings } from '../../api/api';
@@ -23,7 +23,8 @@ import EditBuildingModal from '../../components/buildings/EditBuildingModal';
 
 const headCells = [
     { id: 'name', align: 'left', disablePadding: false, label: 'Name' },
-    { id: 'code', align: 'left', disablePadding: false, label: 'Maximum Nights' },
+    { id: 'nights', align: 'left', disablePadding: false, label: 'Maximum Nights' },
+    { id: 'code', align: 'left', disablePadding: false, label: 'Code' },
     { id: 'status', align: 'left', disablePadding: false, label: 'Status' }
 ];
 
@@ -48,7 +49,7 @@ export default function BuildingsPage() {
         setLoading(true);
         try {
             const res = await getPaginatedBuildings(pageNumber + 1, limit);
-            
+
             setBuildings(res.results);
             setTotalPages(res.totalPages);
             setTotal(res.total);
@@ -97,14 +98,14 @@ export default function BuildingsPage() {
         setEditOpen(true)
     };
 
-    const handleDelete = async() => {
+    const handleDelete = async () => {
         // TODO: Handle delete logic
         console.log('Delete building:', buildingToDelete);
         const res = await deleteBuilding(buildingToDelete);
         fetchBuildings(page);
         toast.success(res.message);
         setOpenDeleteModal(false);
-        
+
     };
 
     const onCloseDeleteModal = () => {
@@ -147,35 +148,64 @@ export default function BuildingsPage() {
 
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {buildings.map((row, index) => {
-                            const labelId = `enhanced-table-checkbox-${index}`;
-                            return (
-                                <TableRow
-                                    hover
-                                    tabIndex={-1}
-                                    key={row._id}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell component="th" id={labelId} scope="row">
-                                        <Link color="secondary">{row.name}</Link>
-                                    </TableCell>
-                                    <TableCell>{row.nights}</TableCell>
-                                    <TableCell >{row.status}</TableCell>
-                                    <TableCell>
-                                        <IconButton size="medium" onClick={() => handleEdit(row)}>
-                                            <EditOutlined />
-                                        </IconButton >
-                                        <IconButton size="medium" color="error" aria-label="delete" onClick={() => {setOpenDeleteModal(true);
-                                        setBuildingToDelete(row._id)}}>
-                                            <DeleteOutlined />
-                                        </IconButton >
-                                    </TableCell>
+                    {loading ? (
+                        <TableBody>
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                        <CircularProgress />
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    ) :
+                        <TableBody>
+                            {buildings.map((row, index) => {
+                                const labelId = `enhanced-table-checkbox-${index}`;
+                                return (
+                                    <TableRow
+                                        hover
+                                        tabIndex={-1}
+                                        key={row._id}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" id={labelId} scope="row">
+                                            <Link color="secondary">{row.name}</Link>
+                                        </TableCell>
+                                        <TableCell>{row.nights}</TableCell>
+                                        <TableCell>{row.code}</TableCell>
+                                        <TableCell >{row.status}</TableCell>
+                                        <TableCell>
+                                            <IconButton size="medium" onClick={() => handleEdit(row)}>
+                                                <EditOutlined />
+                                            </IconButton >
+                                            <IconButton size="medium" color="error" aria-label="delete" onClick={() => {
+                                                setOpenDeleteModal(true);
+                                                setBuildingToDelete(row._id)
+                                            }}>
+                                                <DeleteOutlined />
+                                            </IconButton >
+                                            {row.bannedPlatesFile && (
+                                                <Tooltip title="Download banned plates file" arrow>
+                                                    <IconButton
+                                                        size="medium"
+                                                        component="a"
+                                                        href={row.bannedPlatesFile}
+                                                        download
+                                                        aria-label="download"
+                                                    >
+                                                        <DownloadOutlined />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            )}
 
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
+                                        </TableCell>
+
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    }
                 </Table>
             </TableContainer>
 

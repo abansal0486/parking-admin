@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Box from '@mui/material/Box';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
 
 // project imports
 import { deleteTicket, getTickets } from '../../api/api';
@@ -26,7 +26,8 @@ const headCells = [
     { id: 'unitNumber', align: 'left', disablePadding: false, label: 'Unit Number' },
     { id: 'building', align: 'left', disablePadding: false, label: 'Building' },
     { id: 'startTime', align: 'left', disablePadding: false, label: 'Start Time' },
-    { id: 'endTime', align: 'right', disablePadding: false, label: 'End Time' }
+    { id: 'endTime', align: 'right', disablePadding: false, label: 'End Time' },
+    { id: 'nights', align: 'left', disablePadding: false, label: 'Nights' }
 ];
 
 export default function TicketsPage() {
@@ -144,40 +145,53 @@ export default function TicketsPage() {
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {tickets.map((row, index) => {
-                            const labelId = `enhanced-table-checkbox-${index}`;
-                            return (
-                                <TableRow
-                                    hover
-                                    tabIndex={-1}
-                                    key={row._id}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell>{row.plateNumber}</TableCell>
-                                    <TableCell component="th" id={labelId} scope="row">
-                                        <Link color="secondary">{row.unitNumber}</Link>
-                                    </TableCell>
-                                    <TableCell>{row.building?.name}</TableCell>
-                                    <TableCell >{moment.parseZone(row.startTime).local().format('DD/MM/YY HH:mm')}</TableCell>
-                                    <TableCell align="right">
-                                       {moment.parseZone(row.endTime).local().format("DD/MM/YY HH:mm")}
-                                    </TableCell>
-                                    <TableCell>
-                                        <IconButton size="medium" onClick={() => handleEdit(row)}>
-                                            <EditOutlined />
-                                        </IconButton >
-                                        <IconButton size="medium" color="error" aria-label="delete" onClick={() => {
-                                            setOpenDeleteModal(true);
-                                            setTicketToDelete(row._id)
-                                        }}>
-                                            <DeleteOutlined />
-                                        </IconButton >
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
+                    {loading ? (
+                        <TableBody>
+                            <TableRow>
+                                <TableCell colSpan={7}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                        <CircularProgress />
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    ) :
+                        <TableBody>
+                            {tickets.map((row, index) => {
+                                const labelId = `enhanced-table-checkbox-${index}`;
+                                return (
+                                    <TableRow
+                                        hover
+                                        tabIndex={-1}
+                                        key={row._id}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell>{row.plateNumber}</TableCell>
+                                        <TableCell component="th" id={labelId} scope="row">
+                                            <Link color="secondary">{row.unitNumber}</Link>
+                                        </TableCell>
+                                        <TableCell>{row.building?.name}</TableCell>
+                                        <TableCell >{moment.parseZone(row.startTime).local().format('DD/MM/YY HH:mm')}</TableCell>
+                                        <TableCell align="right">
+                                            {moment.parseZone(row.endTime).local().format("DD/MM/YY HH:mm")}
+                                        </TableCell>
+                                        <TableCell>{row.nights}</TableCell>
+                                        <TableCell>
+                                            <IconButton size="medium" onClick={() => handleEdit(row)}>
+                                                <EditOutlined />
+                                            </IconButton >
+                                            <IconButton size="medium" color="error" aria-label="delete" onClick={() => {
+                                                setOpenDeleteModal(true);
+                                                setTicketToDelete(row._id)
+                                            }}>
+                                                <DeleteOutlined />
+                                            </IconButton >
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    }
                 </Table>
             </TableContainer>
 

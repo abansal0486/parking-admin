@@ -1,6 +1,7 @@
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { useEffect, useState } from 'react';
 
 const rawData = [
   { _id: { date: "2025-08-14", day: 5 }, count: 3 },
@@ -8,21 +9,26 @@ const rawData = [
   { _id: { date: "2025-08-20", day: 4 }, count: 1 }
 ];
 
-// Day mapping (1 = Su, 7 = Sa)
-const xLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
-// Fill counts with 0 by default
-const data = Array(7).fill(0);
-
-// Put values from rawData in correct day slot
-rawData.forEach(item => {
-  const dayIndex = item._id.day - 1; // shift to 0-based
-  data[dayIndex] = item.count;
-});
 
 // ==============================|| WEEKLY BAR CHART ||============================== //
 
-export default function WeeklyBarChart() {
+export default function WeeklyBarChart({ weeklyStats }) {
+  // Day mapping (1 = Su, 7 = Sa)
+  const xLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+  // Fill counts with 0 by default
+  const [data, setData] = useState(Array(7).fill(0));
+
+  useEffect(() => {
+    if (weeklyStats) {
+      setData(Array(7).fill(0));
+      weeklyStats.forEach((item) => {
+        const dayIndex = item._id.day - 1; // shift to 0-based
+        setData((prev) => [...prev.slice(0, dayIndex), item.count, ...prev.slice(dayIndex + 1)]);
+      });
+    }
+  }, [weeklyStats]);
   const theme = useTheme();
   const axisFonstyle = { fontSize: 10, fill: theme.palette.text.secondary };
 

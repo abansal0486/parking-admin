@@ -87,20 +87,12 @@ const ProfilePage = () => {
           <Typography variant="h6" gutterBottom>
             Account Information
           </Typography>
-          <TextField
-            label="Name"
-            value={user.name}
-            margin="normal"
-            InputProps={{ readOnly: true }}
-            sx={{ width: '400px', display: 'block' }}
-          />
-          <TextField
-            label="Email"
-            value={user.email}
-            margin="normal"
-            InputProps={{ readOnly: true }}
-            sx={{ width: '400px', display: 'block' }}
-          />
+          <Typography variant="h6" gutterBottom>
+            <span style={{ fontWeight: 'bold' }}>Name : </span>{user.name}
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            <span style={{ fontWeight: 'bold' }}>Email : </span>{user.email}
+          </Typography>
         </Box>
       )}
 

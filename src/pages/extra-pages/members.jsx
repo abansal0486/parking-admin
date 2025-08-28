@@ -118,7 +118,7 @@ export default function MembersPage() {
     return (
         <Box sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button variant="contained" onClick={handleOpen} sx={{ mb: 2 }}>
+                <Button variant="contained" onClick={handleOpen} sx={{ m: 2 }}>
                     Add New Member
                 </Button>
             </Box>

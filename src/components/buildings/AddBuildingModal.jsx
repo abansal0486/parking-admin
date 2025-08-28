@@ -129,7 +129,7 @@ const AddBuildingModal = ({ open, onClose }) => {
                                     {/* 👇 New CSV Upload field */}
                                     <Grid item xs={12}>
                                         <Stack spacing={1}>
-                                            <InputLabel htmlFor="file">Banned Plates CSV (Optional)</InputLabel>
+                                            <InputLabel htmlFor="file">Banned Plates (Optional)</InputLabel>
                                             <OutlinedInput
                                                 id="file"
                                                 name="file"

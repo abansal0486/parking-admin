@@ -125,7 +125,7 @@ const EditBuildingModal = ({ openEdit, onEditClose, data }) => {
                                         {/* 🔹 File Upload for banned plates */}
                                         <Grid item xs={12}>
                                             <Stack spacing={1}>
-                                                <InputLabel htmlFor="bannedPlatesFile">Banned Plates CSV</InputLabel>
+                                                <InputLabel htmlFor="bannedPlatesFile">Banned Plates</InputLabel>
                                                 <input
                                                     id="bannedPlatesFile"
                                                     name="bannedPlatesFile"

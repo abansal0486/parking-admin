@@ -48,7 +48,7 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                         plateNumber: data.plateNumber,
                         email: data.email,
                         unitNumber: data.unitNumber,
-                        building: data.building._id,
+                        building: data.buildingData._id,
                         nights: data.nights || 0
                     }}
                     validationSchema={Yup.object().shape({
@@ -89,6 +89,7 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                                             placeholder="Enter full plateNumber"
                                             fullWidth
                                             error={Boolean(touched.plateNumber && errors.plateNumber)}
+                                            readOnly
                                         />
                                         {touched.plateNumber && errors.plateNumber && (
                                             <FormHelperText error>{errors.plateNumber}</FormHelperText>
@@ -109,6 +110,7 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                                             placeholder="Enter email address"
                                             fullWidth
                                             error={Boolean(touched.email && errors.email)}
+                                            
                                         />
                                         {touched.email && errors.email && (
                                             <FormHelperText error>{errors.email}</FormHelperText>
@@ -129,6 +131,7 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                                             placeholder="Enter unit number"
                                             fullWidth
                                             error={Boolean(touched.unitNumber && errors.unitNumber)}
+                                            readOnly
                                         />
                                         {touched.unitNumber && errors.unitNumber && (
                                             <FormHelperText error>{errors.unitNumber}</FormHelperText>
@@ -150,6 +153,7 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                                             error={Boolean(touched.building && errors.building)}
                                             helperText={touched.building && errors.building}
                                             inputProps={{ 'aria-label': 'Select Building' }}
+                                            disabled
                                         >
                                             {buildingOptions.map((b) => (
                                                 <MenuItem key={b._id} value={b._id}>
@@ -173,7 +177,9 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                                             placeholder="Enter number of nights"
                                             fullWidth
                                             error={Boolean(touched.nights && errors.nights)}
-                                            inputProps={{ min: 1, max: getMaxNights(values.building) }}
+                                            inputProps={{ min: 1
+                                                // max: getMaxNights(values.building) 
+                                            }}
                                         />
                                         {touched.nights && errors.nights && (
                                             <FormHelperText error>{errors.nights}</FormHelperText>

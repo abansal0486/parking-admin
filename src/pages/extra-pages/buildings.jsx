@@ -42,13 +42,13 @@ export default function BuildingsPage() {
     const [buildingToDelete, setBuildingToDelete] = useState(null);
 
     useEffect(() => {
-        fetchBuildings(page);
-    }, [page]);
+        fetchBuildings(page, limit);
+    }, [page, limit]);
 
-    const fetchBuildings = async (pageNumber) => {
+    const fetchBuildings = async (pageNumber, perPage) => {
         setLoading(true);
         try {
-            const res = await getPaginatedBuildings(pageNumber + 1, limit);
+            const res = await getPaginatedBuildings(pageNumber + 1, perPage || limit);
 
             setBuildings(res.results);
             setTotalPages(res.totalPages);

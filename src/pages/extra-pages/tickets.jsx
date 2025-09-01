@@ -57,13 +57,13 @@ export default function TicketsPage() {
     }, [search]);
 
     useEffect(() => {
-        fetchTickets(page, debouncedSearch);
-    }, [page, debouncedSearch]);
+        fetchTickets(page, limit, debouncedSearch);
+    }, [page, debouncedSearch, limit]);
 
-    const fetchTickets = async (pageNumber, searchQuery = "") => {
+    const fetchTickets = async (pageNumber, perPage, searchQuery = "") => {
         setLoading(true);
         try {
-            const res = await getTickets(pageNumber + 1, limit, searchQuery);
+            const res = await getTickets(pageNumber + 1, perPage || limit, searchQuery);
             setTickets(res.results);
             setTotalPages(res.totalPages);
             setTotal(res.total);
@@ -191,9 +191,9 @@ export default function TicketsPage() {
                                             <Link color="secondary">{row.unitNumber}</Link>
                                         </TableCell>
                                         <TableCell>{row.buildingData?.name}</TableCell>
-                                        <TableCell >{moment.parseZone(row.startTime).local().format('DD/MM/YY HH:mm')}</TableCell>
+                                        <TableCell >{moment.parseZone(row.startTime).format('DD/MM/YY HH:mm')}</TableCell>
                                         <TableCell align="right">
-                                            {moment.parseZone(row.endTime).local().format("DD/MM/YY HH:mm")}
+                                            {moment.parseZone(row.endTime).format("DD/MM/YY HH:mm")}
                                         </TableCell>
                                         <TableCell>{row.nights}</TableCell>
                                         <TableCell>

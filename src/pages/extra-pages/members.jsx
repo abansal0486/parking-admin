@@ -43,13 +43,13 @@ export default function MembersPage() {
     const [memberToDelete, setMemberToDelete] = useState(null);
 
     useEffect(() => {
-        fetchMembers(page);
-    }, [page]);
+        fetchMembers(page, limit);
+    }, [page, limit]);
 
-    const fetchMembers = async (pageNumber) => {
+    const fetchMembers = async (pageNumber, perPage) => {
         setLoading(true);
         try {
-            const res = await getMembers(pageNumber + 1, limit);
+            const res = await getMembers(pageNumber + 1, perPage || limit);
             setMembers(res.results);
             setTotalPages(res.totalPages);
             setTotal(res.total);

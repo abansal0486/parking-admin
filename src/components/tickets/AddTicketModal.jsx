@@ -49,7 +49,7 @@ const AddTicketModal = ({ open, onClose }) => {
                     }}
                     validationSchema={Yup.object().shape({
                         plateNumber: Yup.string().required('License Plate Number is required'),
-                        email: Yup.string().email('Invalid email').required('Email is required'),
+                        email: Yup.string().email('Invalid email'),
                         unitNumber: Yup.string().required('Unit Number is required'),
                         buildingId: Yup.string().required('Building is required'),
                         nights: Yup.number().required('Nights is required'),

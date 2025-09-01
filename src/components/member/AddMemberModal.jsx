@@ -63,7 +63,7 @@ const AddMemberModal = ({ open, onClose }) => {
                         password: Yup.string()
                             .required('Password is required')
                             .min(6, 'Password must be at least 6 characters')
-                            .max(20, 'Password must be less than 20 characters'),
+                            .max(50, 'Password must be less than 50 characters'),
                         // unitNumber: Yup.string().required('Unit Number is required'),
                         // building: Yup.string().required('Building is required')
                     })}

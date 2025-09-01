@@ -10,8 +10,8 @@ export const getMembers = async (page, limit) => {
     return response.data;
 };
 
-export const getTickets = async (page, limit) => {
-    const response = await api.get(`/ticket?page=${page}&limit=${limit}`);
+export const getTickets = async (page, limit, search) => {
+    const response = await api.get(`/ticket?page=${page}&limit=${limit}&search=${search}`);
     return response.data;
 };
 

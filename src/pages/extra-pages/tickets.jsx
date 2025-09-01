@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Box from '@mui/material/Box';
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, TextField } from '@mui/material';
 
 // project imports
 import { deleteTicket, getTickets } from '../../api/api';
@@ -42,15 +42,28 @@ export default function TicketsPage() {
     const [editData, setEditData] = useState(null);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [ticketToDelete, setTicketToDelete] = useState(null);
+    const [search, setSearch] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+
+
+    // debounce search input (300ms delay)
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setPage(0);
+            setDebouncedSearch(search);
+        }, 500);
+        return () => clearTimeout(handler);
+    }, [search]);
 
     useEffect(() => {
-        fetchTickets(page);
-    }, [page]);
+        fetchTickets(page, debouncedSearch);
+    }, [page, debouncedSearch]);
 
-    const fetchTickets = async (pageNumber) => {
+    const fetchTickets = async (pageNumber, searchQuery = "") => {
         setLoading(true);
         try {
-            const res = await getTickets(pageNumber + 1, limit);
+            const res = await getTickets(pageNumber + 1, limit, searchQuery);
             setTickets(res.results);
             setTotalPages(res.totalPages);
             setTotal(res.total);
@@ -116,7 +129,14 @@ export default function TicketsPage() {
 
     return (
         <Box sx={{ p: 2 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <TextField
+                    size="small"
+                    placeholder="Search by Plate or Building"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    sx={{ m: 2, width: 300 }}
+                />
                 <Button variant="contained" onClick={handleOpen} sx={{ m: 2 }}>
                     Add New
                 </Button>
@@ -170,7 +190,7 @@ export default function TicketsPage() {
                                         <TableCell component="th" id={labelId} scope="row">
                                             <Link color="secondary">{row.unitNumber}</Link>
                                         </TableCell>
-                                        <TableCell>{row.building?.name}</TableCell>
+                                        <TableCell>{row.buildingData?.name}</TableCell>
                                         <TableCell >{moment.parseZone(row.startTime).local().format('DD/MM/YY HH:mm')}</TableCell>
                                         <TableCell align="right">
                                             {moment.parseZone(row.endTime).local().format("DD/MM/YY HH:mm")}

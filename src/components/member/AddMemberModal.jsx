@@ -22,7 +22,7 @@ import IconButton from 'components/@extended/IconButton';
 import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import { addMember, getBuildings } from '../../api/api';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const AddMemberModal = ({ open, onClose }) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -240,11 +240,6 @@ const AddMemberModal = ({ open, onClose }) => {
                 </Formik>
             </DialogContent>
         </Dialog>
-            <ToastContainer
-                closeButton={false}
-                autoClose={5000}
-                position='top-right'
-            />
         </Box>
     );
 };

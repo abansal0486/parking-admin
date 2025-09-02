@@ -116,7 +116,9 @@ export default function TicketsPage() {
         // TODO: Handle delete logic
         console.log('Delete ticket:', ticketToDelete);
         const res = await deleteTicket(ticketToDelete);
-        fetchTickets(page);
+        setPage(0);
+        setDebouncedSearch('');
+        setSearch('');
         toast.success(res.message);
         setOpenDeleteModal(false);
 

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { addBuilding } from '../../api/api';
 
 const AddBuildingModal = ({ open, onClose }) => {
@@ -155,11 +155,6 @@ const AddBuildingModal = ({ open, onClose }) => {
                     </Formik>
                 </DialogContent>
             </Dialog>
-            <ToastContainer
-                closeButton={false}
-                autoClose={5000}
-                position='top-right'
-            />
         </Box>
     );
 };

@@ -21,7 +21,7 @@ import {
     updateMember,
     // getBuildings 
 } from '../../api/api';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const EditMemberModal = ({ openEdit, onEditClose, data }) => {
     const roleOptions = [{ value: 'superadmin', label: 'Admin' }, { value: 'member', label: 'Member' }];
@@ -199,11 +199,6 @@ const EditMemberModal = ({ openEdit, onEditClose, data }) => {
                     </Formik>
                 </DialogContent>}
             </Dialog>
-            <ToastContainer
-                closeButton={false}
-                autoClose={5000}
-                position='top-right'
-            />
         </Box>
     );
 };

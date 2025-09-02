@@ -219,7 +219,7 @@ export default function BuildingsPage() {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
             <AddBuildingModal open={open} onClose={handleClose} />
-            <EditBuildingModal openEdit={openEdit} onEditClose={handleEditClose} data={editData} />
+            <EditBuildingModal openEdit={openEdit} onEditClose={handleEditClose} data={editData} setEditData={setEditData} />
 
             <Dialog open={openDeleteModal} onClose={onCloseDeleteModal}>
                 <DialogTitle>Delete Building</DialogTitle>

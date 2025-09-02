@@ -85,5 +85,10 @@ export const updatePassword = async (data) => {
     return response.data;
 };
 
+export const removeFile = async (building_id, fileUrl) => {
+    const response = await api.post(`/buildings/remove-file/${building_id}`, { fileUrl });
+    return response.data;
+};
+
 
 

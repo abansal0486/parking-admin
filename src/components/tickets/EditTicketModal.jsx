@@ -18,7 +18,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { updateTicket, getBuildings } from '../../api/api';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const EditTicketModal = ({ openEdit, onEditClose, data }) => {
     const [buildingOptions, setBuildingOptions] = useState([]);
@@ -202,11 +202,6 @@ const EditTicketModal = ({ openEdit, onEditClose, data }) => {
                 </Formik>
             </DialogContent>}
         </Dialog>
-            <ToastContainer
-                closeButton={false}
-                autoClose={5000}
-                position='top-right'
-            />
         </Box>
     );
 };

@@ -1,36 +1,41 @@
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useEffect, useState } from 'react';
 
-const rawData = [
-  { _id: { date: "2025-08-14", day: 5 }, count: 3 },
-  { _id: { date: "2025-08-18", day: 2 }, count: 3 },
-  { _id: { date: "2025-08-20", day: 4 }, count: 1 }
-];
-
-
-
 // ==============================|| WEEKLY BAR CHART ||============================== //
-
 export default function WeeklyBarChart({ weeklyStats }) {
-  // Day mapping (1 = Su, 7 = Sa)
-  const xLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  const theme = useTheme();
+  const axisFonstyle = { fontSize: 10, fill: theme.palette.text.secondary };
 
-  // Fill counts with 0 by default
-  const [data, setData] = useState(Array(7).fill(0));
+  // Day mapping (1 = Su, 7 = Sa)
+  const weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+  const [data, setData] = useState([]);
+  const [xLabels, setXLabels] = useState([]);
 
   useEffect(() => {
     if (weeklyStats) {
-      setData(Array(7).fill(0));
+      let counts = Array(7).fill(0);
       weeklyStats.forEach((item) => {
-        const dayIndex = item._id.day - 1; // shift to 0-based
-        setData((prev) => [...prev.slice(0, dayIndex), item.count, ...prev.slice(dayIndex + 1)]);
+        const dayIndex = item._id.day - 1; // 0 = Sunday
+        counts[dayIndex] = item.count;
       });
+
+      // Rotate so that today is last
+      const todayIndex = new Date().getDay(); // 0 = Sunday
+      const rotatedCounts = [
+        ...counts.slice(todayIndex + 1),
+        ...counts.slice(0, todayIndex + 1),
+      ];
+      const rotatedLabels = [
+        ...weekDays.slice(todayIndex + 1),
+        ...weekDays.slice(0, todayIndex + 1),
+      ];
+
+      setData(rotatedCounts);
+      setXLabels(rotatedLabels);
     }
   }, [weeklyStats]);
-  const theme = useTheme();
-  const axisFonstyle = { fontSize: 10, fill: theme.palette.text.secondary };
 
   return (
     <BarChart

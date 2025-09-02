@@ -9,15 +9,22 @@ import {
     InputLabel,
     OutlinedInput,
     FormHelperText,
-    Box
+    Box,
+    Paper
 } from '@mui/material';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { updateBuilding } from '../../api/api';
-import { toast, ToastContainer } from 'react-toastify';
+import { removeFile, updateBuilding } from '../../api/api';
+import { toast } from 'react-toastify';
 
-const EditBuildingModal = ({ openEdit, onEditClose, data }) => {
+const EditBuildingModal = ({ openEdit, onEditClose, data, setEditData }) => {
+
+    const removeAttachment = async () => {
+        const res = await removeFile(data._id, data.bannedPlatesFile);
+        toast.success(res.message);
+        setEditData({ ...data, bannedPlatesFile: null });
+    }
     return (
         <Box>
             <Dialog open={openEdit} onClose={onEditClose} fullWidth maxWidth="sm">
@@ -123,7 +130,7 @@ const EditBuildingModal = ({ openEdit, onEditClose, data }) => {
                                         </Grid>
 
                                         {/* 🔹 File Upload for banned plates */}
-                                        <Grid item xs={12}>
+                                        {/* <Grid item xs={12}>
                                             <Stack spacing={1}>
                                                 <InputLabel htmlFor="bannedPlatesFile">Banned Plates</InputLabel>
                                                 <input
@@ -139,7 +146,92 @@ const EditBuildingModal = ({ openEdit, onEditClose, data }) => {
                                                     <FormHelperText>{values.bannedPlatesFile.name}</FormHelperText>
                                                 )}
                                             </Stack>
+                                        </Grid> */}
+
+                                        <Grid item xs={12}>
+                                            <Stack spacing={1}>
+                                                <InputLabel htmlFor="bannedPlatesFile">Banned Plates</InputLabel>
+
+                                                {/* 🔹 Existing file */}
+                                                {data?.bannedPlatesFile && !values.bannedPlatesFile && (
+                                                    <Paper
+                                                        variant="outlined"
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'space-between',
+                                                            p: 1.2,
+                                                            borderRadius: 2,
+                                                            backgroundColor: '#f9f9f9'
+                                                        }}
+                                                    >
+                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                            📄
+                                                            <span>{data.bannedPlatesFile.split('/').pop()}</span>
+                                                        </Box>
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="error"
+                                                            size="small"
+                                                            onClick={() => {setFieldValue("bannedPlatesFile", null);
+                                                                removeAttachment();
+                                                            }}
+                                                        >
+                                                            Remove
+                                                        </Button>
+                                                    </Paper>
+                                                )}
+
+                                                {/* 🔹 Upload new file */}
+                                                <Button
+                                                    variant="outlined"
+                                                    component="label"
+                                                    sx={{ mt: 1, alignSelf: 'flex-start' }}
+                                                >
+                                                    {data?.bannedPlatesFile ? 'Replace' : 'Upload'} CSV
+                                                    <input
+                                                        type="file"
+                                                        hidden
+                                                        accept=".csv"
+                                                        onChange={(event) => {
+                                                            setFieldValue("bannedPlatesFile", event.currentTarget.files[0])
+                                                            // reset input value so same file can be re-uploaded
+                                                            event.target.value = null
+                                                        }}
+                                                    />
+                                                </Button>
+
+                                                {/* 🔹 New file preview */}
+                                                {values.bannedPlatesFile && (
+                                                    <Paper
+                                                        variant="outlined"
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'space-between',
+                                                            p: 1.2,
+                                                            borderRadius: 2,
+                                                            backgroundColor: '#f9f9f9',
+                                                            mt: 1
+                                                        }}
+                                                    >
+                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                            📄
+                                                            <span>{values.bannedPlatesFile.name}</span>
+                                                        </Box>
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="error"
+                                                            size="small"
+                                                            onClick={() => setFieldValue("bannedPlatesFile", null)}
+                                                        >
+                                                            Remove
+                                                        </Button>
+                                                    </Paper>
+                                                )}
+                                            </Stack>
                                         </Grid>
+
 
                                         <Grid item xs={12}>
                                             <DialogActions>
@@ -156,7 +248,6 @@ const EditBuildingModal = ({ openEdit, onEditClose, data }) => {
                     </DialogContent>
                 )}
             </Dialog>
-            <ToastContainer closeButton={false} autoClose={5000} position="top-right" />
         </Box>
     );
 };

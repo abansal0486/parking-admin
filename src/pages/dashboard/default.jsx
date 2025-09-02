@@ -14,7 +14,6 @@ import UniqueVisitorCard from 'sections/dashboard/default/UniqueVisitorCard';
 
 import { useEffect, useState } from 'react';
 import { getStats } from '../../api/api';
-import { ToastContainer } from 'react-toastify';
 
 // avatar style
 const avatarSX = {
@@ -88,10 +87,6 @@ export default function DashboardDefault() {
           <WeeklyBarChart weeklyStats={stats.last7days} />
         </MainCard>
       </Grid>
-      <ToastContainer
-        closeButton={false}
-        autoClose={5000}
-        position='top-right' />
     </Grid>
   );
 }

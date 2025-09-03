@@ -47,6 +47,15 @@ const ProfilePage = () => {
       setMessage('All fields are required.');
       return;
     }
+    if (newPassword.length < 6) {
+      setMessage('Password must be at least 6 characters long.');
+      return;
+    }
+    if (newPassword.length > 50) {
+      setMessage('Password must be less than 50 characters long.');
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       setMessage('New password and confirm password do not match.');
       return;

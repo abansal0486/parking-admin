@@ -14,13 +14,13 @@ export default function AuthFooter() {
         sx={{ gap: 2, justifyContent: { xs: 'center', sm: 'space-between', textAlign: { xs: 'center', sm: 'inherit' } } }}
       >
         <Typography variant="subtitle2" color="secondary">
-          © Made with love by Team{' '}
+          {/* © Made with love by Team{' '} */}
           {/* <Link href="#" target="_blank" underline="hover">
             CodedThemes
           </Link> */}
         </Typography>
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: { xs: 1, sm: 3 }, textAlign: { xs: 'center', sm: 'inherit' } }}>
+        {/* <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: { xs: 1, sm: 3 }, textAlign: { xs: 'center', sm: 'inherit' } }}>
           <Typography
             variant="subtitle2"
             color="secondary"
@@ -41,7 +41,7 @@ export default function AuthFooter() {
           >
             Privacy Policy
           </Typography>
-        </Stack>
+        </Stack> */}
       </Stack>
     </Container>
   );

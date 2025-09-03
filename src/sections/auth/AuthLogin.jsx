@@ -1,18 +1,14 @@
 import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
 // third-party
 import * as Yup from 'yup';
@@ -31,7 +27,6 @@ import { login } from '../../api/api';
 
 export default function AuthLogin() {
   const navigate = useNavigate(); // 👈 for redirect
-  const [checked, setChecked] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -54,6 +49,7 @@ export default function AuthLogin() {
           password: Yup.string()
             .required('Password is required')
             .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
+            .min(8, 'Password must be at least 6 characters')
             .max(50, 'Password must be less than 50 characters')
         })}
 

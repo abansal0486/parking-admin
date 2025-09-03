@@ -119,6 +119,7 @@ export default function TicketsPage() {
         setPage(0);
         setDebouncedSearch('');
         setSearch('');
+        fetchTickets(0, limit, '');
         toast.success(res.message);
         setOpenDeleteModal(false);
 

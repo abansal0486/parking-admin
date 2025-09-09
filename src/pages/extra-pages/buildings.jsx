@@ -22,7 +22,7 @@ import AddBuildingModal from '../../components/buildings/AddBuildingModal';
 import EditBuildingModal from '../../components/buildings/EditBuildingModal';
 
 const headCells = [
-    { id: 'name', align: 'left', disablePadding: false, label: 'Name' },
+    { id: 'name', align: 'left', disablePadding: false, label: 'Site ID/Name' },
     { id: 'nights', align: 'left', disablePadding: false, label: 'Maximum Nights' },
     { id: 'code', align: 'left', disablePadding: false, label: 'Code' },
     { id: 'status', align: 'left', disablePadding: false, label: 'Status' }

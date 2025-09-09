@@ -70,7 +70,7 @@ const EditBuildingModal = ({ openEdit, onEditClose, data, setEditData }) => {
                                     <Grid container spacing={2} sx={{ mt: 1, flexDirection: 'column' }}>
                                         <Grid item xs={12}>
                                             <Stack spacing={1}>
-                                                <InputLabel htmlFor="name">Name</InputLabel>
+                                                <InputLabel htmlFor="name">Site ID/Name</InputLabel>
                                                 <OutlinedInput
                                                     id="name"
                                                     name="name"

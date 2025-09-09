@@ -49,7 +49,7 @@ export default function AuthLogin() {
           password: Yup.string()
             .required('Password is required')
             .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
-            .min(8, 'Password must be at least 6 characters')
+            .min(6, 'Password must be at least 6 characters')
             .max(50, 'Password must be less than 50 characters')
         })}
 

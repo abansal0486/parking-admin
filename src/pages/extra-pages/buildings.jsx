@@ -114,6 +114,29 @@ export default function BuildingsPage() {
     };
 
 
+        const getSelectedDuration = (data) => {
+        if (data.maxNightPerWeek > 0) {
+            return 'Week';
+        } else if (data.maxNightPerMonth > 0) {
+            return 'Month';
+        } else if (data.maxNightPerYear > 0) {
+            return 'Year';
+        }
+        return 'At Once';
+    }
+
+    const getCount = (data) => {
+        if (data.maxNightPerWeek > 0) {
+            return data.maxNightPerWeek;
+        } else if (data.maxNightPerMonth > 0) {
+            return data.maxNightPerMonth;
+        } else if (data.maxNightPerYear > 0) {
+            return data.maxNightPerYear;
+        }
+        return data.nights;
+    }
+
+
 
     return (
         <Box sx={{ p: 2 }}>
@@ -172,7 +195,7 @@ export default function BuildingsPage() {
                                         <TableCell component="th" id={labelId} scope="row">
                                             <Link color="secondary">{row.name}</Link>
                                         </TableCell>
-                                        <TableCell>{row.nights}</TableCell>
+                                        <TableCell>{getCount(row)} / {getSelectedDuration(row)}</TableCell>
                                         <TableCell>{row.code}</TableCell>
                                         <TableCell >{row.status}</TableCell>
                                         <TableCell>

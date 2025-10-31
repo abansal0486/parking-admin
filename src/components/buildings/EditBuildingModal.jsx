@@ -10,7 +10,9 @@ import {
     OutlinedInput,
     FormHelperText,
     Box,
-    Paper
+    Paper,
+    TextField,
+    MenuItem
 } from '@mui/material';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -25,6 +27,27 @@ const EditBuildingModal = ({ openEdit, onEditClose, data, setEditData }) => {
         toast.success(res.message);
         setEditData({ ...data, bannedPlatesFile: null });
     }
+    const getSelectedDuration = (data) => {
+        if (data.maxNightPerWeek > 0) {
+            return 'weekly';
+        } else if (data.maxNightPerMonth > 0) {
+            return 'monthly';
+        } else if (data.maxNightPerYear > 0) {
+            return 'yearly';
+        }
+        return 'once';
+    }
+
+    const getCount = (data) => {
+        if (data.maxNightPerWeek > 0) {
+            return data.maxNightPerWeek;
+        } else if (data.maxNightPerMonth > 0) {
+            return data.maxNightPerMonth;
+        } else if (data.maxNightPerYear > 0) {
+            return data.maxNightPerYear;
+        }
+        return data.nights;
+    }
     return (
         <Box>
             <Dialog open={openEdit} onClose={onEditClose} fullWidth maxWidth="sm">
@@ -36,20 +59,58 @@ const EditBuildingModal = ({ openEdit, onEditClose, data, setEditData }) => {
                                 name: data.name,
                                 code: data.code,
                                 nights: data.nights,
+                                count: getCount(data),
+                                selectedDuration: getSelectedDuration(data),
+                                maxNightPerWeek: data.maxNightPerWeek,
+                                maxNightPerMonth: data.maxNightPerMonth,
+                                maxNightPerYear: data.maxNightPerYear,
                                 bannedPlatesFile: null
                             }}
                             validationSchema={Yup.object().shape({
                                 name: Yup.string().required('Name is required'),
-                                nights: Yup.number().required('Maximum Nights count is required')
+                                // nights: Yup.number().required('Maximum Nights count is required')
+                                count: Yup.number().min(1, 'Minimum Nights count is 1').required('Maximum Nights count is required'),
+                                selectedDuration: Yup.string().required('Duration is required'),
                             })}
                             onSubmit={async (values, { setSubmitting, resetForm }) => {
                                 try {
                                     setSubmitting(true);
+                                    if (!values.count || !values.selectedDuration) {
+                                        return
+                                    }
+                                    if (values.selectedDuration === 'once') {
+                                        values.nights = values.count;
+                                        values.maxNightPerWeek=0
+                                        values.maxNightPerMonth=0
+                                        values.maxNightPerYear=0
+                                    }
+                                    if (values.selectedDuration === 'weekly') {
+                                        values.maxNightPerWeek = values.count;
+                                        values.nights=0
+                                        values.maxNightPerMonth=0
+                                        values.maxNightPerYear=0
+                                    }
+                                    if (values.selectedDuration === 'monthly') {
+                                        values.maxNightPerMonth = values.count;
+                                        values.nights=0
+                                        values.maxNightPerWeek=0
+                                        values.maxNightPerYear=0
+                                    }
+                                    if (values.selectedDuration === 'yearly') {
+                                        values.maxNightPerYear = values.count;
+                                        values.nights=0
+                                        values.maxNightPerWeek=0
+                                        values.maxNightPerMonth=0
+                                    }
 
                                     const formData = new FormData();
                                     formData.append("name", values.name);
                                     formData.append("code", values.code || "");
-                                    formData.append("nights", values.nights);
+                                    // formData.append("nights", values.nights);
+                                    formData.append('nights', values.nights);
+                                    formData.append('maxNightPerWeek', values.maxNightPerWeek);
+                                    formData.append('maxNightPerMonth', values.maxNightPerMonth);
+                                    formData.append('maxNightPerYear', values.maxNightPerYear);
                                     if (values.bannedPlatesFile) {
                                         formData.append("file", values.bannedPlatesFile);
                                     }
@@ -108,7 +169,7 @@ const EditBuildingModal = ({ openEdit, onEditClose, data, setEditData }) => {
                                             </Stack>
                                         </Grid>
 
-                                        <Grid item xs={12}>
+                                        {/* <Grid item xs={12}>
                                             <Stack spacing={1}>
                                                 <InputLabel htmlFor="nights">Maximum Nights</InputLabel>
                                                 <OutlinedInput
@@ -127,6 +188,54 @@ const EditBuildingModal = ({ openEdit, onEditClose, data, setEditData }) => {
                                                     <FormHelperText error>{errors.nights}</FormHelperText>
                                                 )}
                                             </Stack>
+                                        </Grid> */}
+                                        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                                            <Grid item size={6}>
+                                                <Stack spacing={1}>
+                                                    <InputLabel htmlFor="count">Maximum Nights Count</InputLabel>
+                                                    <OutlinedInput
+                                                        id="count"
+                                                        name="count"
+                                                        type="number"
+                                                        value={values.count}
+                                                        onBlur={handleBlur}
+                                                        // onChange={(e) => setCount(e.target.value)}
+                                                        onChange={handleChange}
+                                                        placeholder="Enter count"
+                                                        fullWidth
+                                                        error={Boolean(touched.count && errors.count)}
+                                                        inputProps={{ min: 1 }}
+                                                    />
+                                                    {touched.count && errors.count && (
+                                                        <FormHelperText error>{errors.count}</FormHelperText>
+                                                    )}
+                                                </Stack>
+                                            </Grid>
+                                            <Grid item size={6}>
+                                                <Stack spacing={1}>
+                                                    <InputLabel htmlFor="selectedDuration">Maximum Nights Duration</InputLabel>
+                                                    <TextField
+                                                        id="selectedDuration"
+                                                        name="selectedDuration"
+                                                        select
+                                                        fullWidth
+                                                        value={values.selectedDuration}
+                                                        // onChange={(e) => setSelectedDuration(e.target.value)}
+                                                        onChange={handleChange}
+                                                        onBlur={handleBlur}
+                                                        inputProps={{ 'aria-label': 'Select Role' }}
+                                                        error={Boolean(touched.selectedDuration && errors.selectedDuration)}
+                                                    >
+                                                        <MenuItem value={'once'}>At Once</MenuItem>
+                                                        <MenuItem value={'weekly'}>Weekly</MenuItem>
+                                                        <MenuItem value={'monthly'}>Monthly</MenuItem>
+                                                        <MenuItem value={'yearly'}>Yearly</MenuItem>
+                                                    </TextField>
+                                                    {touched.selectedDuration && errors.selectedDuration && (
+                                                        <FormHelperText error>{errors.selectedDuration}</FormHelperText>
+                                                    )}
+                                                </Stack>
+                                            </Grid>
                                         </Grid>
 
                                         {/* 🔹 File Upload for banned plates */}
@@ -173,7 +282,8 @@ const EditBuildingModal = ({ openEdit, onEditClose, data, setEditData }) => {
                                                             variant="outlined"
                                                             color="error"
                                                             size="small"
-                                                            onClick={() => {setFieldValue("bannedPlatesFile", null);
+                                                            onClick={() => {
+                                                                setFieldValue("bannedPlatesFile", null);
                                                                 removeAttachment();
                                                             }}
                                                         >
